@@ -26,7 +26,7 @@ const miModulo = (() => {
     const body = document.querySelector('body');
 
     body.innerHTML = `
-
+    
         <h1>1. ${question}</h1>
         <p>
             ${js_java};
