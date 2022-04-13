@@ -1,5 +1,5 @@
 const miModulo = (() => {
-
+    //arreglar pull request
     'use strict';
 
     let question = '¿Qué es Javascript y en qué se asemeja a Java?';

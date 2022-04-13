@@ -1,6 +1,6 @@
 const miModulo = (() => {
-
-    'use strict';
+    //arreglar pull request
+    'use strict'
 
     //Global Vars
 
