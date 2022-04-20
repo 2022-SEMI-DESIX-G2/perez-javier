@@ -8,7 +8,8 @@
     const containerCards = document.querySelector('#containerCards'),
         form = document.querySelector('#form'),
         inputNum = document.querySelector('#inputNum'),
-        divException = document.querySelector('#exception')
+        divException = document.querySelector('#exception'),
+        sectionForm = document.querySelector('#sectionForm')
 
     //Functions
 
@@ -32,12 +33,17 @@
     const formSubmitHandler = (e) => {
 
         e.preventDefault();
+        divException.innerHTML = ''
+
 
         let num = inputNum.value;
 
         if (num <= 1) {
+
             divException.innerHTML = `<small class = "err";">El número debe ser mayor a uno</small>`
         } else {
+
+            divException.innerHTML = ''
 
             let stack = [];
 
