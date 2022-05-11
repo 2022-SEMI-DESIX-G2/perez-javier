@@ -1,5 +1,4 @@
 (() => {
-
     const Utils = {
         settings: {
             backendBaseUrl: 'https://pokeapi.co/api/v2/'
