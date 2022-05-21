@@ -100,7 +100,7 @@
     
                     <section class="aside-B">
                         <h4>Weight/Height</h4>
-                        <p>${weight}/${height}</p>
+                        <p class="h-w">${weight}/${height}</p>
     
                         <h4>Abilities</h4>
                         <ul>${abilitiesList.join("")}</ul>
