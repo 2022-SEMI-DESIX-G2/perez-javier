@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,900;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,500;0,600;0,900;1,700&display=swap');
 body {
     background-color: #061b2cfa;
     overflow: auto;
@@ -12,8 +12,8 @@ a {
 h1,
 h3,
 h4 {
-    font-family: 'Monserrat';
-    font-weight: 700;
+    font-family: 'Montserrat';
+    font-weight: 600;
     font-size: 30px;
     line-height: 29.26px;
     margin-block-end: 0;
@@ -21,9 +21,11 @@ h4 {
 }
 
 h3 {
-    font-size: 25px;
+    font-size: 28px;
     font-weight: 900;
     line-height: 21.94px;
+    padding-left: 1.5rem;
+    padding-top: 1.5rem;
 }
 
 h4 {
@@ -33,7 +35,7 @@ h4 {
 }
 
 p {
-    font-family: 'Monserrat';
+    font-family: 'Montserrat';
     /* color: #3a3a3a; */
     margin-block-start: 0.5rem;
     font-weight: 300;
@@ -49,7 +51,7 @@ form {
 }
 
 label {
-    font-family: 'Monserrat';
+    font-family: 'Montserrat';
     font-weight: 700;
     font-size: 12px;
     line-height: 18.63px;
@@ -81,17 +83,18 @@ select:focus {
 ul {
     margin-block-start: 0;
     margin-block-end: 0;
+    padding-inline-start: 20px;
 }
 
 li {
-    font-family: 'Monserrat';
+    font-family: 'Montserrat';
     font-weight: 300;
     font-size: 12px;
     line-height: 14.63px;
 }
 
 button {
-    font-family: 'Monserrat';
+    font-family: 'Montserrat';
     font-weight: 700;
     font-size: 12px;
     line-height: 14.63px;
@@ -118,7 +121,7 @@ button {
 
 .logo {
     position: absolute;
-    left: 7.7rem;
+    left: 9.3rem;
     top: -4.3rem;
 }
 
@@ -201,8 +204,13 @@ button {
     width: auto;
 }
 
+.h-w {
+    margin-bottom: 2rem;
+}
+
 .err {
     color: red;
     font-weight: bold;
     font-size: 0.7rem;
+    margin-left: 0.1rem;
 }
