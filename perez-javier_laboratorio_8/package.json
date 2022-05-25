@@ -1,0 +1,14 @@
+{
+  "name": "perez-javier_laboratorio_8",
+  "version": "0.0.1",
+  "description": "Lab 8",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Javier Pérez",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
