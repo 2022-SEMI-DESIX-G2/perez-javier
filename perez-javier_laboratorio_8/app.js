@@ -6,14 +6,15 @@ const fibonacci = (n, s = []) => n < 2 ? n : (s[n - 1]) + (s[n - 2])
 const getFibonacciSeries = (req, res) => {
 
     const { num } = req.params
-    let serie = [];
+    let stack = [];
 
     for (let i = 0; i < num; i++) {
 
-        serie.push(fibonacci(i, serie));
+        stack.push(fibonacci(i, stack));
     }
 
-    res.json({ serie });
+    const sequence = stack.join("")
+    res.json({ sequence });
 }
 
 app.get('/fibonacci/:num', getFibonacciSeries);
