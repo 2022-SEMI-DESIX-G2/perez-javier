@@ -1,0 +1,14 @@
+{
+  "name": "perez-javier_laboratorio_7",
+  "version": "0.0.1",
+  "description": "Lab #7 ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Javier Pérez",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.27.2"
+  }
+}
