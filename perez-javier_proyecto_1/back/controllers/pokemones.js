@@ -15,14 +15,14 @@ const getPokemon = async(req = request, res = response) => {
     const now = new Date();
 
     if (CACHE[name]) {
-        const { cached_at } = CACHE[name]
-        if ((now - cached_at >= delta)) {
+        const { cachedAt } = CACHE[name]
+        if ((now - cachedAt >= delta)) {
             delete CACHE[name];
         } else {
             return res.json({ data: CACHE[name], isCached: true });
         }
     }
-    let responseData, cached_at;
+    let responseData, cachedAt;
     try {
         const { data } = await axios.get(
             `${process.env.BASE_URL}/pokemon/${name}`
@@ -43,14 +43,14 @@ const getPokemon = async(req = request, res = response) => {
         // creando fecha de exp para el cacheo
         const month = setMonth(now.getMonth() + 1);
         const dateExp = new Date(`${month} ${now.getDate()} ${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`);
-        cached_at = dateExp;
+        cachedAt = dateExp;
 
     } catch (error) {
         console.log(error);
         responseData = { error: error.toString(), name };
     }
-    CACHE[name] = { responseData, cached_at };
-    res.json({ data: responseData, cached_at, isCached: false });
+    CACHE[name] = { responseData, cachedAt };
+    res.json({ data: responseData, cachedAt, isCached: false });
 }
 
 const setMonth = (m) => {

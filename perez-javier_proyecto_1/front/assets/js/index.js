@@ -52,22 +52,22 @@
 
 
                         const pokemonButtonGeneral = document.querySelector('#button-general')
-                        pokemonButtonGeneral.addEventListener('click', App.handlers.pokemonButtonGeneralOnClick)
+                        pokemonButtonGeneral.addEventListener('click', (e) => App.handlers.showPokemonCard(e, '#general-response'))
 
                         if (checkSprites) {
                             const pokemonButtonSprites = document.querySelector('#button-sprites');
-                            pokemonButtonSprites.addEventListener('click', App.handlers.pokemonButtonSpritesOnClick);
+                            pokemonButtonSprites.addEventListener('click', (e) => App.handlers.showPokemonCard(e, '#sprites-response'));
                         }
 
                         if (checkLocation) {
                             const pokemonButtonLocation = document.querySelector('#button-location');
-                            pokemonButtonLocation.addEventListener('click', App.handlers.pokemonButtonLocationOnClick);
+                            pokemonButtonLocation.addEventListener('click', (e) => App.handlers.showPokemonCard(e, '#location-response'));
 
                         }
 
                         if (checkEvoChain) {
                             const pokemonButtonEvoChain = document.querySelector('#button-evo-chain');
-                            pokemonButtonEvoChain.addEventListener('click', App.handlers.pokemonButtonEvoChainOnClick);
+                            pokemonButtonEvoChain.addEventListener('click', (e) => App.handlers.showPokemonCard(e, '#evo-chain-response'));
                         }
                     }
                 } catch (error) {
@@ -81,28 +81,10 @@
                 }
 
             },
-
-            pokemonButtonGeneralOnClick: (e) => {
-
+            showPokemonCard: (e, id) => {
                 const hidden = 'click-button-hidden';
                 const visible = 'click-button-visible';
-                const pokemonDivGeneral = document.querySelector('#general-response')
-                const listClass = pokemonDivGeneral.classList;
-
-                if (listClass.value.split(' ').includes(hidden)) {
-                    pokemonDivGeneral.classList.add(visible);
-                    pokemonDivGeneral.classList.remove(hidden);
-                } else {
-                    pokemonDivGeneral.classList.add(hidden);
-                    pokemonDivGeneral.classList.remove(visible);
-                }
-            },
-
-            pokemonButtonSpritesOnClick: (e) => {
-
-                const hidden = 'click-button-hidden';
-                const visible = 'click-button-visible';
-                const div = document.querySelector('#sprites-response')
+                const div = document.querySelector(id);
                 const listClass = div.classList;
 
                 if (listClass.value.split(' ').includes(hidden)) {
@@ -113,37 +95,6 @@
                     div.classList.remove(visible);
                 }
             },
-            pokemonButtonLocationOnClick: (e) => {
-
-                const hidden = 'click-button-hidden';
-                const visible = 'click-button-visible';
-                const div = document.querySelector('#location-response')
-                const listClass = div.classList;
-
-                if (listClass.value.split(' ').includes(hidden)) {
-                    div.classList.add(visible);
-                    div.classList.remove(hidden);
-                } else {
-                    div.classList.add(hidden);
-                    div.classList.remove(visible);
-                }
-            },
-            pokemonButtonEvoChainOnClick: (e) => {
-
-                const hidden = 'click-button-hidden';
-                const visible = 'click-button-visible';
-                const pokemonDivGeneral = document.querySelector('#evo-chain-response')
-                const listClass = pokemonDivGeneral.classList;
-
-                if (listClass.value.split(' ').includes(hidden)) {
-                    pokemonDivGeneral.classList.add(visible);
-                    pokemonDivGeneral.classList.remove(hidden);
-                } else {
-                    pokemonDivGeneral.classList.add(hidden);
-                    pokemonDivGeneral.classList.remove(visible);
-                }
-            },
-
         },
         templates: {
             render: ({ searchType = 'pokemon', data }) => {
@@ -178,8 +129,8 @@
                     const method = encounter_details[counter].method.name;
                     console.log(location, chance, max_level, method);
                     counter++;
-                    return `<tr><td>${location}</td><td>${chance}</td><td>${max_level}</td><td>${method}</td></tr>`
-                })
+                    return `<tr><td>${location}</td><td>${chance}%</td><td>${max_level}</td><td>${method}</td></tr>`
+                });
 
                 return ` <section class="container">
                 <div class="container-info-form">
