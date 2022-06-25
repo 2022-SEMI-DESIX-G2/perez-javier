@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const { dbConnection } = require('../db/config');
 
 class Server {
 
@@ -12,18 +13,25 @@ class Server {
             pokemon: '/api/v1/pokemon',
         };
 
+        // Connect DB
+        this.connectDB();
+
         //Middlewares
         this.middlewares();
 
-        //Rutas de mi aplicacion
+        //Routes App
         this.routes();
+    }
+
+    async connectDB() {
+        await dbConnection();
     }
 
     middlewares() {
         //CORS
         this.app.use(cors());
 
-        //Lectura y parseo del body
+        //Read and Paser body
         this.app.use(express.json());
     }
 

@@ -1,58 +1,73 @@
 const { request, response } = require("express");
 const axios = require("axios").default;
 
+const Pokemon = require("../models/pokemon");
 
-const CACHE = {};
+const { setEvoChain, setLocationAreas, setSprites, setAbilities } = require('../utils')
+
+// const CACHE = {};
 let delta = 10 * 1000;
 
 const getCache = async(req = request, res = response) => {
-    res.json({ data: CACHE })
+    try {
+        const [total, CACHE] = await Promise.all([
+            Pokemon.count(),
+            Pokemon.find()
+        ])
+        res.json({ total, data: CACHE })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ data: error.toString() });
+    }
 }
 
 const getPokemon = async(req = request, res = response) => {
-
     const { name } = req.params;
     const now = new Date();
 
-    if (CACHE[name]) {
-        const { cachedAt } = CACHE[name]
+    const pokemonDB = await Pokemon.findOne({ name });
+    if (pokemonDB) {
+        const { cachedAt } = pokemonDB
         if ((now - cachedAt >= delta)) {
-            delete CACHE[name];
+            await Pokemon.findOneAndDelete({ name })
         } else {
-            return res.json({ data: CACHE[name], isCached: true });
+            return res.json({ data: pokemonDB, isCached: true });
         }
     }
-    let responseData, cachedAt;
+
     try {
         const { data } = await axios.get(
             `${process.env.BASE_URL}/pokemon/${name}`
         );
-        const { id } = data
+        const { id, sprites, abilities } = data
         const [location, species] = await Promise.all([
             axios.get(`${process.env.BASE_URL}/pokemon/${id}/encounters`),
             axios.get(`${process.env.BASE_URL}/pokemon-species/${id}/`),
         ]);
-
         const { evolution_chain } = species.data;
         const responseEvosChain = await axios.get(evolution_chain.url);
         const { chain } = responseEvosChain.data;
-        data['evos_chain'] = getArrEvolutionChain(chain);
-        data['locations_areas'] = location.data;
-        responseData = data;
-
-        // creando fecha de exp para el cacheo
+        data.evosChain = setEvoChain(chain);
+        data.locationAreas = setLocationAreas(location.data) || '<tr><td>No Existen lugares</td><tr>';
+        data.sprites = setSprites(sprites);
+        data.abilities = setAbilities(abilities);
+        data.frontDefaultSprite = sprites.front_default;
+        // console.log(data);
+        // Creating date cached exp
         const month = setMonth(now.getMonth() + 1);
         const dateExp = new Date(`${month} ${now.getDate()} ${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`);
-        cachedAt = dateExp;
+        data.cachedAt = dateExp;
+
+        const pokemon = new Pokemon(data);
+        await pokemon.save();
+        res.status(201).json({ data: pokemon, isCached: false });
 
     } catch (error) {
         console.log(error);
-        responseData = { error: error.toString(), name };
+        res.status(400).json({ data: error.toString(), name });
+        // responseData = {  };
     }
-    CACHE[name] = { responseData, cachedAt };
-    res.json({ data: responseData, cachedAt, isCached: false });
 }
-
 const setMonth = (m) => {
     switch (m) {
         case 1:
@@ -92,23 +107,6 @@ const setMonth = (m) => {
             return 'december'
             break;
     }
-}
-
-const getArrEvolutionChain = ({ species, is_baby, evolves_to }) => {
-    let stack = [];
-    stack.push({ name: species.name, is_baby: is_baby });
-
-    while (evolves_to.length > 0) {
-        if (evolves_to.length > 1) {
-            evolves_to.forEach(({ species, is_baby }) => {
-                stack.push({ name: species.name, is_baby: is_baby });
-            });
-        } else {
-            stack.push({ name: evolves_to[0].species.name, is_baby: evolves_to[0].is_baby });
-        }
-        evolves_to = evolves_to[0].evolves_to
-    }
-    return stack;
 }
 
 module.exports = {
