@@ -9,10 +9,6 @@
         },
         errorCard: () => `<h1>There was an error</h1>`,
         pokemonCard: ({ id, name, weight, height, frontDefaultSprite, sprites, locationAreas, abilities, evosChain, checkSprites, checkLocation, checkEvoChain }) => {
-            //Set all Sprites
-            // console.log(sprites);
-            const spritesArr = [];
-            sprites.forEach(sprite => spritesArr.push(`<img class="sprites" src='${sprite}'>`));
             return ` <section class="container">
             <div class="container-info-form">
                 <center>
@@ -36,15 +32,15 @@
                         <li>${height}</li>
                     </ul>
                 </div>
-                ${checkSprites ? Templates.spritesCard(spritesArr) : ''}
+                ${checkSprites ? Templates.spritesCard(sprites) : ''}
                 ${checkLocation ? Templates.locationCard(locationAreas) : ''}
                 ${checkEvoChain ? Templates.evoChainCard(evosChain) : ''}                  
             </div>
         </section>`;
         },
-        spritesCard: (spritesArr) => `<button id="button-sprites" class="button-response">Sprites del Pokemon</button>
+        spritesCard: (sprites) => `<button id="button-sprites" class="button-response">Sprites del Pokemon</button>
         <div class="data-response click-button-hidden" id="sprites-response">
-            ${spritesArr.join('')}
+            ${sprites}
         </div>`,
         locationCard: (locationAreas) => `<button id="button-location" class="button-response">Ubicación del Pokemon</button>
         <div class="data-response click-button-hidden" id="location-response">
