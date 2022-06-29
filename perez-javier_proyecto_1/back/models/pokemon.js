@@ -16,7 +16,7 @@ const PokemonSchema = Schema({
         required: [true, 'pokemon id is required']
     },
     sprites: {
-        type: Object,
+        type: String,
         required: true
     },
     locationAreas: {

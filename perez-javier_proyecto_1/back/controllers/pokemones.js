@@ -44,19 +44,14 @@ const getPokemon = async(req = request, res = response) => {
             axios.get(`${process.env.BASE_URL}/pokemon/${id}/encounters`),
             axios.get(`${process.env.BASE_URL}/pokemon-species/${id}/`),
         ]);
-        const { evolution_chain } = species.data;
-        const responseEvosChain = await axios.get(evolution_chain.url);
-        const { chain } = responseEvosChain.data;
-        data.evosChain = setEvoChain(chain);
+        data.evosChain = await setEvoChain(species.data);
         data.locationAreas = setLocationAreas(location.data) || '<tr><td>No Existen lugares</td><tr>';
         data.sprites = setSprites(sprites);
         data.abilities = setAbilities(abilities);
         data.frontDefaultSprite = sprites.front_default;
-        // console.log(data);
         // Creating date cached exp
         const month = setMonth(now.getMonth() + 1);
-        const dateExp = new Date(`${month} ${now.getDate()} ${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`);
-        data.cachedAt = dateExp;
+        data.cachedAt = new Date(`${month} ${now.getDate()} ${now.getFullYear()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`);
 
         const pokemon = new Pokemon(data);
         await pokemon.save();
